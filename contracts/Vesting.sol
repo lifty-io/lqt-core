@@ -590,6 +590,7 @@ contract Vesting is Ownable {
     using SafeBEP20 for IBEP20;
 
     event Release(address indexed user, uint256 amount);
+    event SetBalances(uint256 count);
 
     IBEP20 public lqtToken;
     uint256 private _totalReleased = 0;
@@ -601,15 +602,15 @@ contract Vesting is Ownable {
         lqtToken = _lqt;
     }
 
-    function balanceOf(address account) public view returns (uint256) {
+    function balanceOf(address account) external view returns (uint256) {
         return _balances[account];
     }
 
-    function released(address account) public view returns (uint256) {
+    function released(address account) external view returns (uint256) {
         return _released[account];
     }
 
-    function totalReleased() public view returns (uint256) {
+    function totalReleased() external view returns (uint256) {
         return _totalReleased;
     }
 
@@ -625,6 +626,7 @@ contract Vesting is Ownable {
         for (uint256 id = 0; id < count; ++id) {
             _balances[holders[id]] = amounts[id];
         }
+        emit SetBalances(count);
     }
 
     function getPart() internal view returns (uint8) {
@@ -651,13 +653,13 @@ contract Vesting is Ownable {
         return amount.sub(_released[account]);
     }
 
-    function release() public {
+    function release() external {
         uint256 amount = availableAmount(msg.sender);
-        require(_balances[msg.sender] > 0 && amount > 0, "Nothing to release");
-        lqtToken.safeTransfer(msg.sender, amount);
+        require(amount > 0 && _balances[msg.sender] >= amount, "Nothing to release");
         _balances[msg.sender] = _balances[msg.sender].sub(amount);
         _released[msg.sender] = _released[msg.sender].add(amount);
         _totalReleased = _totalReleased.add(amount);
+        lqtToken.safeTransfer(msg.sender, amount);
         emit Release(msg.sender, amount);
     }
 }

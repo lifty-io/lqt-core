@@ -1,4 +1,6 @@
+.DS_Store
 node_modules
+package-lock.json
 
 #Hardhat files
 cache
@@ -6,3 +8,5 @@ artifacts
 
 coverage
 coverage.json
+
+.idea
