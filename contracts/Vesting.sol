@@ -17,8 +17,8 @@ interface IBEP20 {
     function symbol() external view returns (string memory);
 
     /**
-    * @dev Returns the token name.
-    */
+     * @dev Returns the token name.
+     */
     function name() external view returns (string memory);
 
     /**
@@ -38,7 +38,9 @@ interface IBEP20 {
      *
      * Emits a {Transfer} event.
      */
-    function transfer(address recipient, uint256 amount) external returns (bool);
+    function transfer(address recipient, uint256 amount)
+    external
+    returns (bool);
 
     /**
      * @dev Returns the remaining number of tokens that `spender` will be
@@ -47,7 +49,10 @@ interface IBEP20 {
      *
      * This value changes when {approve} or {transferFrom} are called.
      */
-    function allowance(address _owner, address spender) external view returns (uint256);
+    function allowance(address _owner, address spender)
+    external
+    view
+    returns (uint256);
 
     /**
      * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
@@ -74,7 +79,11 @@ interface IBEP20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -88,7 +97,11 @@ interface IBEP20 {
      * @dev Emitted when the allowance of a `spender` for an `owner` is set by
      * a call to {approve}. `value` is the new allowance.
      */
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 }
 
 library Address {
@@ -114,7 +127,8 @@ library Address {
         // and 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 is returned
         // for accounts without code, i.e. `keccak256('')`
         bytes32 codehash;
-        bytes32 accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
+        bytes32 accountHash =
+        0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
         // solhint-disable-next-line no-inline-assembly
         assembly {
             codehash := extcodehash(account)
@@ -139,11 +153,17 @@ library Address {
      * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions pattern].
      */
     function sendValue(address payable recipient, uint256 amount) internal {
-        require(address(this).balance >= amount, 'Address: insufficient balance');
+        require(
+            address(this).balance >= amount,
+            "Address: insufficient balance"
+        );
 
         // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
-        (bool success, ) = recipient.call{value: amount}('');
-        require(success, 'Address: unable to send value, recipient may have reverted');
+        (bool success, ) = recipient.call{value: amount}("");
+        require(
+            success,
+            "Address: unable to send value, recipient may have reverted"
+        );
     }
 
     /**
@@ -164,8 +184,11 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(address target, bytes memory data) internal returns (bytes memory) {
-        return functionCall(target, data, 'Address: low-level call failed');
+    function functionCall(address target, bytes memory data)
+    internal
+    returns (bytes memory)
+    {
+        return functionCall(target, data, "Address: low-level call failed");
     }
 
     /**
@@ -198,7 +221,13 @@ library Address {
         bytes memory data,
         uint256 value
     ) internal returns (bytes memory) {
-        return functionCallWithValue(target, data, value, 'Address: low-level call with value failed');
+        return
+        functionCallWithValue(
+            target,
+            data,
+            value,
+            "Address: low-level call with value failed"
+        );
     }
 
     /**
@@ -213,7 +242,10 @@ library Address {
         uint256 value,
         string memory errorMessage
     ) internal returns (bytes memory) {
-        require(address(this).balance >= value, 'Address: insufficient balance for call');
+        require(
+            address(this).balance >= value,
+            "Address: insufficient balance for call"
+        );
         return _functionCallWithValue(target, data, value, errorMessage);
     }
 
@@ -223,10 +255,11 @@ library Address {
         uint256 weiValue,
         string memory errorMessage
     ) private returns (bytes memory) {
-        require(isContract(target), 'Address: call to non-contract');
+        require(isContract(target), "Address: call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.call{value: weiValue}(data);
+        (bool success, bytes memory returndata) =
+        target.call{value: weiValue}(data);
         if (success) {
             return returndata;
         } else {
@@ -298,7 +331,11 @@ library SafeMath {
      * Requirements:
      * - Subtraction cannot overflow.
      */
-    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function sub(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b <= a, errorMessage);
         uint256 c = a - b;
 
@@ -354,7 +391,11 @@ library SafeMath {
      * Requirements:
      * - The divisor cannot be zero.
      */
-    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function div(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         // Solidity only automatically asserts when dividing by 0
         require(b > 0, errorMessage);
         uint256 c = a / b;
@@ -389,7 +430,11 @@ library SafeMath {
      * Requirements:
      * - The divisor cannot be zero.
      */
-    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function mod(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b != 0, errorMessage);
         return a % b;
     }
@@ -413,7 +458,10 @@ library SafeBEP20 {
         address to,
         uint256 value
     ) internal {
-        _callOptionalReturn(token, abi.encodeWithSelector(token.transfer.selector, to, value));
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(token.transfer.selector, to, value)
+        );
     }
 
     function safeTransferFrom(
@@ -422,7 +470,10 @@ library SafeBEP20 {
         address to,
         uint256 value
     ) internal {
-        _callOptionalReturn(token, abi.encodeWithSelector(token.transferFrom.selector, from, to, value));
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(token.transferFrom.selector, from, to, value)
+        );
     }
 
     /**
@@ -443,9 +494,12 @@ library SafeBEP20 {
         // solhint-disable-next-line max-line-length
         require(
             (value == 0) || (token.allowance(address(this), spender) == 0),
-            'SafeBEP20: approve from non-zero to non-zero allowance'
+            "SafeBEP20: approve from non-zero to non-zero allowance"
         );
-        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(token.approve.selector, spender, value)
+        );
     }
 
     function safeIncreaseAllowance(
@@ -453,8 +507,16 @@ library SafeBEP20 {
         address spender,
         uint256 value
     ) internal {
-        uint256 newAllowance = token.allowance(address(this), spender).add(value);
-        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+        uint256 newAllowance =
+        token.allowance(address(this), spender).add(value);
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(
+                token.approve.selector,
+                spender,
+                newAllowance
+            )
+        );
     }
 
     function safeDecreaseAllowance(
@@ -462,11 +524,19 @@ library SafeBEP20 {
         address spender,
         uint256 value
     ) internal {
-        uint256 newAllowance = token.allowance(address(this), spender).sub(
+        uint256 newAllowance =
+        token.allowance(address(this), spender).sub(
             value,
-            'SafeBEP20: decreased allowance below zero'
+            "SafeBEP20: decreased allowance below zero"
         );
-        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(
+                token.approve.selector,
+                spender,
+                newAllowance
+            )
+        );
     }
 
     /**
@@ -480,11 +550,18 @@ library SafeBEP20 {
         // we're implementing it ourselves. We use {Address.functionCall} to perform this call, which verifies that
         // the target address contains contract code and also asserts for success in the low-level call.
 
-        bytes memory returndata = address(token).functionCall(data, 'SafeBEP20: low-level call failed');
+        bytes memory returndata =
+        address(token).functionCall(
+            data,
+            "SafeBEP20: low-level call failed"
+        );
         if (returndata.length > 0) {
             // Return data is optional
             // solhint-disable-next-line max-line-length
-            require(abi.decode(returndata, (bool)), 'SafeBEP20: BEP20 operation did not succeed');
+            require(
+                abi.decode(returndata, (bool)),
+                "SafeBEP20: BEP20 operation did not succeed"
+            );
         }
     }
 }
@@ -502,7 +579,7 @@ library SafeBEP20 {
 contract Context {
     // Empty internal constructor, to prevent people from mistakenly deploying
     // an instance of this contract, which should be used via inheritance.
-    constructor () internal { }
+    constructor() internal {}
 
     function _msgSender() internal view returns (address payable) {
         return msg.sender;
@@ -529,12 +606,15 @@ contract Context {
 contract Ownable is Context {
     address private _owner;
 
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
 
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor () internal {
+    constructor() internal {
         address msgSender = _msgSender();
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
@@ -579,7 +659,10 @@ contract Ownable is Context {
      * @dev Transfers ownership of the contract to a new account (`newOwner`).
      */
     function _transferOwnership(address newOwner) internal {
-        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        require(
+            newOwner != address(0),
+            "Ownable: new owner is the zero address"
+        );
         emit OwnershipTransferred(_owner, newOwner);
         _owner = newOwner;
     }
@@ -595,8 +678,8 @@ contract Vesting is Ownable {
     IBEP20 public lqtToken;
     uint256 private _totalReleased = 0;
     bool public initialized = false;
-    mapping (address => uint256) private _balances;
-    mapping (address => uint256) private _released;
+    mapping(address => uint256) private _balances;
+    mapping(address => uint256) private _released;
 
     constructor(IBEP20 _lqt) public {
         lqtToken = _lqt;
@@ -646,7 +729,8 @@ contract Vesting is Ownable {
     }
 
     function availableAmount(address account) public view returns (uint256) {
-        uint256 amount = _balances[account].add(_released[account]).mul(getPart()).div(100);
+        uint256 amount =
+        _balances[account].add(_released[account]).mul(getPart()).div(100);
         if (amount <= _released[account]) {
             return 0;
         }
@@ -655,7 +739,10 @@ contract Vesting is Ownable {
 
     function release() external {
         uint256 amount = availableAmount(msg.sender);
-        require(amount > 0 && _balances[msg.sender] >= amount, "Nothing to release");
+        require(
+            amount > 0 && _balances[msg.sender] >= amount,
+            "Nothing to release"
+        );
         _balances[msg.sender] = _balances[msg.sender].sub(amount);
         _released[msg.sender] = _released[msg.sender].add(amount);
         _totalReleased = _totalReleased.add(amount);
